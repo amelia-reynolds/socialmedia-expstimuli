@@ -1,0 +1,7 @@
+// Custom Google Sheets formula to follow a link in a Google Sheets cell and return the url of the webpage the followed link redirects to.
+// Example: If link is in cell A1, then in cell B1, the formula =GetURL(B1) will produce the final redirect location (url). 
+function GetURL(url) {
+  var response = UrlFetchApp.fetch(url, {followRedirects: false});
+  var finalURL = response.getHeaders()['Location'] || url;
+  return finalURL;
+}
