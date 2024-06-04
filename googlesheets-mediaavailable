@@ -1,0 +1,13 @@
+// Custom Google Sheets Function
+// Automatically checks link in Google Sheets cell for whether media on linked webpage is available.
+// Example: For an embedding url in A1, the formala, =CheckURL(A1), in B1 will produce TRUE if the to-be-embedded media is available and FALSE if not available.
+function CheckURL(url) {
+  var response;
+  try {
+    response = UrlFetchApp.fetch(url);
+    return response.getResponseCode() == 200;
+  } catch (error) {
+    console.error("Error checking availability:", error);
+    return false;
+  }
+}
