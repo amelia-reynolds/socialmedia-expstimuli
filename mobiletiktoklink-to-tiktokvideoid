@@ -1,0 +1,48 @@
+// Google Apps Script to extract unique TikTok video ids from links produced by the TikTok app share function and return unique TikTok video id as JSON object 
+// Example: https://script.google.com/macros/s/AKfycbwA3eVcx-j5CzJ1kLLGV-zT2oXa4HOYZR0lDxGwt1LAbYV6lV2UkXCjtiZgKzQ_wzhD/exec?code=ENTER-LINK-HERE
+//          To trial, replace 'ENTER-LINK-HERE' with link to TikTok video
+
+function doGet(e) {
+  // Check if 'shortenedLink' parameter is provided
+  if (!e.parameter.shortenedLink) {
+    return ContentService.createTextOutput(JSON.stringify({ "error": "No shortenedLink parameter provided" })).setMimeType(ContentService.MimeType.JSON);
+  }
+  
+  var shortenedLink = e.parameter.shortenedLink;
+  var jsonObject = getShortenedLinkCode(shortenedLink);
+  
+  return ContentService.createTextOutput(JSON.stringify(jsonObject)).setMimeType(ContentService.MimeType.JSON);
+}
+
+// Function to fetch and extract the code from a shortened link
+function getShortenedLinkCode(shortenedLink) {
+  try {
+    // Step 1: Fetch the full URL
+    var response = UrlFetchApp.fetch(shortenedLink, { followRedirects: false });
+    var headers = response.getAllHeaders();
+    var finalUrl = headers.Location || headers['Final-Url'] || shortenedLink;
+
+    // Step 3: Extract the 19-digit code from the final URL
+    var code = extractCode(finalUrl);
+
+    // Step 4: Create a JSON object with the code
+    var jsonObject = { "code": code };
+
+    // Return the JSON object
+    return jsonObject;
+  } catch (error) {
+    return { "error": error.toString() };
+  }
+}
+
+// Function to extract the 19-digit code from the final URL
+function extractCode(url) {
+  // Regular expression to match a 19-digit number
+  var regex = /\b\d{19}\b/;
+  var match = url.match(regex);
+  if (match) {
+    return match[0];
+  } else {
+    return "Code not found";
+  }
+}
