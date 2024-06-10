@@ -1,5 +1,5 @@
 // Google Apps Script to extract unique TikTok video ids from links produced by the TikTok app share function and return unique TikTok video id as JSON object 
-// Example: https://script.google.com/macros/s/AKfycbwA3eVcx-j5CzJ1kLLGV-zT2oXa4HOYZR0lDxGwt1LAbYV6lV2UkXCjtiZgKzQ_wzhD/exec?code=ENTER-LINK-HERE
+// Example: https://script.google.com/macros/s/AKfycbwA3eVcx-j5CzJ1kLLGV-zT2oXa4HOYZR0lDxGwt1LAbYV6lV2UkXCjtiZgKzQ_wzhD/exec?shortenedLink=ENTER-LINK-HERE
 //          To trial, replace 'ENTER-LINK-HERE' with link to TikTok video
 
 function doGet(e) {
